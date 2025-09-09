@@ -35,7 +35,7 @@ def recommend(title: str):
 
         # Sanity check
         if df.empty or 'Book-Title' not in df.columns:
-            print("📛 No book data found.")
+            print("No book data found.")
             return {"error": "Book data not available."}
 
         df.dropna(subset=["Book-Title", "Book-Author", "Publisher", "ISBN"], inplace=True)
@@ -63,6 +63,6 @@ def recommend(title: str):
         return results.to_dict(orient="records")
 
     except Exception as e:
-        print("🔥 RECOMMENDATION ERROR:", e)
+        print("RECOMMENDATION ERROR:", e)
         return {"error": str(e)}
 

@@ -15,7 +15,7 @@ st.markdown("A book recommender system app to recommend books based on your favo
 
 # ------------------- Load Book Data -------------------
 try:
-    response = requests.get("http://127.0.0.1:8000/books")
+    response = requests.post("/api/recommend/", json=preference_data)
     response.raise_for_status()
     books = pd.DataFrame(response.json()).head(5000)  # Limit to 5000 for performance
 except Exception as e:

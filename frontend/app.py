@@ -7,7 +7,7 @@ def get_cover_url(isbn):
     return f"https://covers.openlibrary.org/b/isbn/{isbn}-M.jpg"
 
 # ------------------- Page Config -------------------
-st.set_page_config(page_title="📚 Book Recommender", layout="wide")
+st.set_page_config(page_title="Book Recommender", layout="wide")
 
 # ------------------- Title -------------------
 st.title("BOOK RECOMMENDATION SYSTEM")
@@ -19,7 +19,7 @@ try:
     response.raise_for_status()
     books = pd.DataFrame(response.json()).head(5000)  # Limit to 5000 for performance
 except Exception as e:
-    st.error(f"⚠️ Could not connect to backend: {e}")
+    st.error(f"Could not connect to backend: {e}")
     st.stop()
 
 # ------------------- Filters -------------------
@@ -53,12 +53,12 @@ book_input = st.selectbox("Select a book title", ["All"] + book_titles)
 # ------------------- Get Recommendations Button -------------------
 col_btn, _, _ = st.columns([1.1, 0.4, 3])
 with col_btn:
-    get_clicked = st.button("🚀 Get Recommendations")
+    get_clicked = st.button("Get Recommendations")
 
 # ------------------- Recommendations -------------------
 if get_clicked:
     if book_input == "All":
-        st.warning("⚠️ Please select a specific book title to get recommendations.")
+        st.warning("Please select a specific book title to get recommendations.")
     else:
         try:
             url = f"http://127.0.0.1:8000/recommend?title={book_input}"
@@ -66,13 +66,13 @@ if get_clicked:
             res.raise_for_status()
             recommendations = res.json()
         except Exception as e:
-            st.error(f"❌ Error fetching recommendations: {e}")
+            st.error(f"Error fetching recommendations: {e}")
             st.stop()
 
         if not recommendations or "error" in recommendations:
-            st.error(f"❌ {recommendations.get('error', 'No recommendations found.')}")
+            st.error(f"{recommendations.get('error', 'No recommendations found.')}")
         else:
-            st.subheader("📘 Top 5 Recommended Books:")
+            st.subheader("Top 5 Recommended Books:")
             for row in recommendations:
                 with st.container():
                     colA, colB = st.columns([1, 5])
@@ -83,8 +83,8 @@ if get_clicked:
                     with colB:
                         st.markdown(
                             f"""
-                            <h5>📖 {row['Book-Title']}</h5>
-                            <p>✍️ <i>{row['Book-Author']}</i></p>
+                            <h5>{row['Book-Title']}</h5>
+                            <p><i>{row['Book-Author']}</i></p>
                             """,
                             unsafe_allow_html=True
                         )
